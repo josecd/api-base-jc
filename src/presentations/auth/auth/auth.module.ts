@@ -8,6 +8,7 @@ import { AuthService } from "src/applications/services/auth/auth/auth.service";
 import { UserService } from 'src/applications/services/auth/user/user.service';
 import { UserLoginUseCase } from "src/applications/use-cases/auth/auth/user-login.use-case";
 import { UserRegisterUseCase } from "src/applications/use-cases/auth/auth/user-register.use-case";
+import { UserVerifyTokenUseCase } from "src/applications/use-cases/auth/auth/verifyToken.use-case";
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { UserRegisterUseCase } from "src/applications/use-cases/auth/auth/user-r
     AuthService, 
     UserService,
     UserLoginUseCase,
-    UserRegisterUseCase
+    UserRegisterUseCase,
+    UserVerifyTokenUseCase
   ]
 })
 export class AuthModule {}

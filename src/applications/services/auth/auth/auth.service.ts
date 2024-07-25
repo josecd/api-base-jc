@@ -32,14 +32,10 @@ export class AuthService {
         throw new UnauthorizedException();
       }
       const { password, ...result } = user;
-      const payload = { sub: user.id, username: user.email };
+      const payload = { sub: user.id, email: user.email };
       return {
         access_token: await this.jwtService.signAsync(payload),
-        user: {
-          idUsuario: user.id,
-          nombre: user.name,
-          correo: user.email,
-        },
+        user: user.name,
       };
     } catch (error) {
       throw error
@@ -62,4 +58,21 @@ export class AuthService {
     }
   }
 
+  public verifyToken(req, token: string) {
+    try {
+      const token = this.extractTokenFromHeader(req);
+      console.log("token", token);
+      
+      const payload = this.jwtService.verify(token);
+      console.log("payload", payload);
+      return payload;
+    } catch (error) {
+      throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
+    }
+  }
+
+  private extractTokenFromHeader(request: any): string | undefined {
+    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    return type === 'Bearer' ? token : undefined;
+  }
 }
