@@ -33,16 +33,6 @@ export class AuthController {
     return this.UserRegisterUseCase.execute(register);
   }
 
-  @Get('')
-  /* @UseGuards(AuthGuard) */
-  verifyTokens(
-    @Request() req,
-    @Body() token: string,) {
-    return this.UserVerifyTokenUseCase.execute(req, token);
-  }
-
-
-
   @Get('verify')
   @UseGuards(AuthGuard)
   verifyToken(

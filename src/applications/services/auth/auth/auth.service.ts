@@ -17,8 +17,6 @@ export class AuthService {
 
   async signIn(correo: string, pass: string): Promise<any> {
     try {
-      console.log("correo", correo);
-      console.log("pass", pass);
       const user = await this.userRepositorio.findOne({
         where: {
           email: correo ,
@@ -61,10 +59,7 @@ export class AuthService {
   public verifyToken(req, token: string) {
     try {
       const token = this.extractTokenFromHeader(req);
-      console.log("token", token);
-      
       const payload = this.jwtService.verify(token);
-      console.log("payload", payload);
       return payload;
     } catch (error) {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
