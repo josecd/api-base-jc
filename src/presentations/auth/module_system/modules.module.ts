@@ -8,11 +8,18 @@ import { ContentType } from "src/domains/entities/auth/content_type/content_type
 import { Modules } from "src/domains/entities/auth/module_system/module.entity";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { CreateModuleUseCase } from "src/applications/use-cases/auth/module_system/create-module.use-case";
+import { FindAlleModuleUseCase } from "src/applications/use-cases/auth/module_system/find-all-module.use-case";
 
 @Module({
   imports: [TypeOrmModule.forFeature([Modules, ContentType, AuthPermission])],
   controllers: [ModulesController],
-  providers: [ModulesService, ContentTypeService, AuthPermissionService,CreateModuleUseCase],
+  providers: [
+    ModulesService, 
+    ContentTypeService, 
+    AuthPermissionService,
+    CreateModuleUseCase,
+    FindAlleModuleUseCase
+  ],
   exports: [ModulesService]
 })
 export class ModulesModule {}

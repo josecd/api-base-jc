@@ -25,6 +25,10 @@ export class Modules {
   codename: string;
   @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
   created_at: Date;
+  @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
+  update_at: Date;
+  @Column({ nullable: true })
+  created_by: string; 
   @Column({ default: "1" })
   is_active: string;
   @ManyToOne(() => ContentType, (cont) => cont.module)

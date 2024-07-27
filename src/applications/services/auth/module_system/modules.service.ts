@@ -1,7 +1,6 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Injectable } from "@nestjs/common";
-import * as fs from "fs";
 import { Modules } from "src/domains/entities/auth/module_system/module.entity";
 import { CreateModuleDto } from "src/domains/dto/auth/module_system/create-module.dto";
 import { ContentTypeService } from "../content_type/content_type.service";
@@ -14,16 +13,61 @@ export class ModulesService {
     private _permission: AuthPermissionService
   ) {}
 
-  async create(createModuleDto: CreateModuleDto) {
+  async findAll() {
+    try {
+      return await this.moduleRepositorio.find();
+    } catch (error) {
+      throw error
+    }
+  }
+  async searchTable(
+    limit: number= 1, 
+    offset: number = 0, 
+  ): Promise<any> {
+    
+    const queryBuilder = this.moduleRepositorio.createQueryBuilder('table');
+    const elements = await queryBuilder
+      .select('*')
+      .where('table.is_active = :isActive', { isActive: '1' })
+      .orderBy('table.update_at', 'ASC')
+      .limit(limit)
+      .offset(offset)
+      .getRawMany();
+    
+    if (!elements || elements.length === 0) {
+      throw 'No se encontraron datos';
+    }
+  
+    const countQueryBuilder = this.moduleRepositorio.createQueryBuilder('table');
+  
+    const totalCountResult = await countQueryBuilder
+      .select('COUNT(*)', 'total_count')
+      .where('table.is_active = :isActive', { isActive: '1' })
+      .getRawOne();
+    
+    
+    const totalCount = totalCountResult.total_count;
+  
+    const paginatedResponse = {
+      data: elements,
+      total: totalCount,
+      limit: limit,
+      offset: offset,
+    };
+    return paginatedResponse;
+  }
+  
+
+  async create(user, createModuleDto: CreateModuleDto) {
     try {
       const newModule = await this.moduleRepositorio.create(createModuleDto);
-
       const content = await this._contentType.create({
         app_label: newModule.idStr,
         model: newModule.idStr
       });
       const sabe = await this.moduleRepositorio.save({
         ...newModule,
+        created_by: user.id,
         content: content
       });
 

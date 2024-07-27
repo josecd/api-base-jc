@@ -24,7 +24,7 @@ import { AuthModule } from './presentations/auth/auth/auth.module';
       password: process.env.PASSWORD_BD,
       database: process.env.DATABASE,
       entities: [__dirname + "/**/*.entity{.ts,.js}"],
-      synchronize: false
+      synchronize: true
     }),
 
     UsersModule,
