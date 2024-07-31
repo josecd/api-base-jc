@@ -19,6 +19,12 @@ export class AuthPermission {
   name: string;
   @Column()
   codename: string;
+  @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
+  created_at: Date;
+  @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
+  update_at: Date;
+  @Column({ default: "1" })
+  is_active: string;
   @ManyToMany(() => User, (user: User) => user.permissions)
   public user: User[];
   @ManyToOne(() => ContentType, (cont) => cont.permissions)

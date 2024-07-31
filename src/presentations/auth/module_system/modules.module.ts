@@ -9,6 +9,7 @@ import { Modules } from "src/domains/entities/auth/module_system/module.entity";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { CreateModuleUseCase } from "src/applications/use-cases/auth/module_system/create-module.use-case";
 import { FindAlleModuleUseCase } from "src/applications/use-cases/auth/module_system/find-all-module.use-case";
+import { FindAlleModulesUseCase } from "src/applications/use-cases/auth/module_system/find-all-modules-complete.use-case";
 
 @Module({
   imports: [TypeOrmModule.forFeature([Modules, ContentType, AuthPermission])],
@@ -18,7 +19,8 @@ import { FindAlleModuleUseCase } from "src/applications/use-cases/auth/module_sy
     ContentTypeService, 
     AuthPermissionService,
     CreateModuleUseCase,
-    FindAlleModuleUseCase
+    FindAlleModuleUseCase,
+    FindAlleModulesUseCase
   ],
   exports: [ModulesService]
 })

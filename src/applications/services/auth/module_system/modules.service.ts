@@ -15,7 +15,14 @@ export class ModulesService {
 
   async findAll() {
     try {
-      return await this.moduleRepositorio.find();
+    const queryBuilder = this.moduleRepositorio.createQueryBuilder('table');
+    const elements = await queryBuilder
+      .select('*')
+      .where('table.is_active = :isActive', { isActive: '1' })
+      .orderBy('table.update_at', 'ASC')
+      .getRawMany();
+
+      return elements
     } catch (error) {
       throw error
     }
