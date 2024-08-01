@@ -7,6 +7,7 @@ import { UpdateCompanieUseCase } from 'src/applications/use-cases/auth/companies
 import { RemoveCompanieUseCase } from 'src/applications/use-cases/auth/companies/remove-companie.use-case';
 import { CreateCompanieUseCase } from 'src/applications/use-cases/auth/companies/create-companie.use-case';
 import { GetAllCompanieUseCase } from 'src/applications/use-cases/auth/companies/get-all-companie.use-case';
+import { FindAllTableComaniesUseCase } from 'src/applications/use-cases/auth/companies/find-all-table.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Company])],
@@ -17,6 +18,7 @@ import { GetAllCompanieUseCase } from 'src/applications/use-cases/auth/companies
     RemoveCompanieUseCase,
     CreateCompanieUseCase,
     GetAllCompanieUseCase,
+    FindAllTableComaniesUseCase
   ],
 })
 export class CompaniesModule {}

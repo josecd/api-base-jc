@@ -17,6 +17,10 @@ export class Company {
   created_at: Date;
   @Column({ default: "1" })
   is_active: string;
+  @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
+  update_at: Date;
+  @Column({ nullable: true })
+  created_by: string; 
   @Column()
   theme: string;
   @ManyToMany(() => User, (user: User) => user.company)
