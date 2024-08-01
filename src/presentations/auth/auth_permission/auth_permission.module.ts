@@ -5,6 +5,7 @@ import { AuthPermission } from 'src/domains/entities/auth/auth_permission/auth_p
 import { AuthPermissionService } from 'src/applications/services/auth/auth_permission/auth_permission.service';
 import { CreatePermissionsUseCase } from 'src/applications/use-cases/auth/auth_permission/create-permission.use-case';
 import { FindAllPermissionUseCase } from 'src/applications/use-cases/auth/auth_permission/find-all-permission.use-case';
+import { FindAllTablePermissionUseCase } from 'src/applications/use-cases/auth/auth_permission/find-all-table-permission.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AuthPermission])],
@@ -12,7 +13,8 @@ import { FindAllPermissionUseCase } from 'src/applications/use-cases/auth/auth_p
   providers: [
     AuthPermissionService,
     CreatePermissionsUseCase,
-    FindAllPermissionUseCase
+    FindAllTablePermissionUseCase,
+    FindAllPermissionUseCase,
   ],
   exports: [AuthPermissionService]
 })

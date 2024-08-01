@@ -11,27 +11,43 @@ export class ModulesService {
     @InjectRepository(Modules) private moduleRepositorio: Repository<Modules>,
     private _contentType: ContentTypeService,
     private _permission: AuthPermissionService
-  ) {}
+  ) { }
+
 
   async findAll() {
     try {
-    const queryBuilder = this.moduleRepositorio.createQueryBuilder('table');
-    const elements = await queryBuilder
-      .select('*')
-      .where('table.is_active = :isActive', { isActive: '1' })
-      .orderBy('table.update_at', 'ASC')
-      .getRawMany();
+      /* const queryBuilder = this.moduleRepositorio.createQueryBuilder('table');
+      const elements = await queryBuilder
+        .select('*')
+        .where('table.is_active = :isActive', { isActive: '1' })
+        .orderBy('table.update_at', 'ASC')
+        .getRawMany(); */
 
-      return elements
+      const modules = await this.moduleRepositorio.find(
+        {
+          where: { is_active: '1' },
+          order: { update_at: 'ASC' },
+          relations: ['content.permissions']
+        }
+      );
+      const result = modules.map((module:any) => {
+        return {
+          ...module,
+          permissions: module.content.permissions
+        };
+      });
+      
+
+      return result
     } catch (error) {
       throw error
     }
   }
   async searchTable(
-    limit: number= 1, 
-    offset: number = 0, 
+    limit: number = 1,
+    offset: number = 0,
   ): Promise<any> {
-    
+
     const queryBuilder = this.moduleRepositorio.createQueryBuilder('table');
     const elements = await queryBuilder
       .select('*')
@@ -40,21 +56,21 @@ export class ModulesService {
       .limit(limit)
       .offset(offset)
       .getRawMany();
-    
+
     if (!elements || elements.length === 0) {
       throw 'No se encontraron datos';
     }
-  
+
     const countQueryBuilder = this.moduleRepositorio.createQueryBuilder('table');
-  
+
     const totalCountResult = await countQueryBuilder
       .select('COUNT(*)', 'total_count')
       .where('table.is_active = :isActive', { isActive: '1' })
       .getRawOne();
-    
-    
+
+
     const totalCount = totalCountResult.total_count;
-  
+
     const paginatedResponse = {
       data: elements,
       total: totalCount,
@@ -63,7 +79,7 @@ export class ModulesService {
     };
     return paginatedResponse;
   }
-  
+
 
   async create(user, createModuleDto: CreateModuleDto) {
     try {
@@ -72,9 +88,10 @@ export class ModulesService {
         app_label: newModule.idStr,
         model: newModule.idStr
       });
+      
       const sabe = await this.moduleRepositorio.save({
         ...newModule,
-        created_by: user.id,
+        created_by: user?.id || "System",
         content: content
       });
 

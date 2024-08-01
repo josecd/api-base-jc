@@ -113,6 +113,8 @@ export class UserService {
                 return dataF;
             }
             } catch (error) {
+                console.log("errors", error);
+                
                 throw new Error(error);
             }
         }

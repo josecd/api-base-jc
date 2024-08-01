@@ -1,3 +1,4 @@
+import { FindAllPermissionUseCase } from 'src/applications/use-cases/auth/auth_permission/find-all-permission.use-case';
 import {
   Controller,
   Get,
@@ -10,9 +11,8 @@ import {
   Req,
   Query
 } from "@nestjs/common";
-import { AuthPermissionService } from "src/applications/services/auth/auth_permission/auth_permission.service";
 import { CreatePermissionsUseCase } from "src/applications/use-cases/auth/auth_permission/create-permission.use-case";
-import { FindAllPermissionUseCase } from "src/applications/use-cases/auth/auth_permission/find-all-permission.use-case";
+import { FindAllTablePermissionUseCase } from "src/applications/use-cases/auth/auth_permission/find-all-table-permission.use-case";
 import { CreateAuthPermissionDto } from "src/domains/dto/auth/auth_premission/create-auth_permission.dto";
 import { AuthGuard } from "src/presentations/guards/auth.guard";
 
@@ -21,18 +21,28 @@ import { AuthGuard } from "src/presentations/guards/auth.guard";
 export class AuthPermissionController {
   constructor(
     private readonly CreatePermissionsUseCase: CreatePermissionsUseCase,
-    private readonly FindAllPermissionUseCase: FindAllPermissionUseCase,
+    private readonly FindAllTablePermissionUseCase: FindAllTablePermissionUseCase,
+    private readonly FindAllPermissionUseCase : FindAllPermissionUseCase,
+
   
   ) {}
   
   @Get("all")
-  findAll(
+  findAllTable(
     @Req() req,
     @Query('limit') limit?: string, 
     @Query('offset') offset?: string
   ){
-    return this.FindAllPermissionUseCase.execute(req.user,  parseInt(limit), parseInt(offset));
+    return this.FindAllTablePermissionUseCase.execute(req.user,  parseInt(limit), parseInt(offset));
   }
+
+  @Get("list")
+  findAll(
+    @Req() req,
+  ) {
+    return this.FindAllPermissionUseCase.execute(req.user);
+  }
+  
 
   @Post("create")
   create(@Body() createAuthPermissionDto: CreateAuthPermissionDto) {

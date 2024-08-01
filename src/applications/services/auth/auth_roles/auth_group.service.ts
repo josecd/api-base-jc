@@ -45,4 +45,42 @@ export class AuthGroupService {
       throw error
     }
   }
+
+  async searchTable(
+    limit: number= 1, 
+    offset: number = 0, 
+  ): Promise<any> {
+    
+    const queryBuilder = this.rolRepositorio.createQueryBuilder('table');
+    const elements = await queryBuilder
+      .select('*')
+      .where('table.is_active = :isActive', { isActive: '1' })
+      .orderBy('table.update_at', 'ASC')
+      .limit(limit)
+      .offset(offset)
+      .getRawMany()
+      
+    
+    if (!elements || elements.length === 0) {
+      throw 'No se encontraron datos';
+    }
+  
+    const countQueryBuilder = this.rolRepositorio.createQueryBuilder('table');
+  
+    const totalCountResult = await countQueryBuilder
+      .select('COUNT(*)', 'total_count')
+      .where('table.is_active = :isActive', { isActive: '1' })
+      .getRawOne();
+    
+    
+    const totalCount = totalCountResult.total_count;
+  
+    const paginatedResponse = {
+      data: elements,
+      total: totalCount,
+      limit: limit,
+      offset: offset,
+    };
+    return paginatedResponse;
+  }
 }

@@ -65,6 +65,12 @@ export class AuthPermissionService {
     return paginatedResponse;
   }
 
-
-
+  async getAllPermissions() {
+    try {
+      const permissions = await this.permissionRepositorio.find();
+      return permissions;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
