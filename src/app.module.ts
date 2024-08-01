@@ -1,3 +1,7 @@
+import { IncidentesModule } from './presentations/incidentes/incidentes.module';
+import { IncidenciasService } from './applications/services/incidencias/incidencias.service';
+import { CatalogModule } from './presentations/catalogs/catalog.module';
+import { CatalogsService } from './applications/services/catalogs/catalogs.service';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -24,7 +28,7 @@ import { AuthModule } from './presentations/auth/auth/auth.module';
       password: process.env.PASSWORD_BD,
       database: process.env.DATABASE,
       entities: [__dirname + "/**/*.entity{.ts,.js}"],
-      synchronize: true
+      synchronize: false
     }),
 
     UsersModule,
@@ -33,9 +37,12 @@ import { AuthModule } from './presentations/auth/auth/auth.module';
     ContentTypeModule,
     AuthGroupModule,
     CompaniesModule,
-    AuthModule
+    AuthModule,
+    CatalogModule,
+    IncidentesModule,
+
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }
