@@ -30,6 +30,8 @@ export class User {
   is_staff: number;
   @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
   created_at: Date;
+  @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
+  update_at: Date;
   @Column({ default: "1" })
   is_active: string;
   @ManyToMany(

@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/domains/entities/auth/user/user.entity';
 import { AuthGroup } from 'src/domains/entities/auth/auth_roles/auth_group.entity';
 import { UserService } from 'src/applications/services/auth/user/user.service';
+import { GetUserTableUseCase } from 'src/applications/use-cases/auth/user/get-user-table.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, AuthGroup])],
@@ -13,7 +14,8 @@ import { UserService } from 'src/applications/services/auth/user/user.service';
   providers: [
     UserService,
     CreateUserUseCase,
-    GetUserUseCase
+    GetUserUseCase,
+    GetUserTableUseCase
   ],
   exports: [UserService]
 })
