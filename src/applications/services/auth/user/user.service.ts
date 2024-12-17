@@ -14,10 +14,9 @@ export class UserService {
 
     async create(userData: CreateUserDto) {
         try {
-            const hashedPassword = await bcrypt.hash(userData.password, 10);
             const newUser = await this.userRepositorio.create({
                 ...userData,
-                password: hashedPassword
+                password: userData.password
             });
             newUser.autgroup = userData.roles_id;
             newUser.company = userData.companies_id;

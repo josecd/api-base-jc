@@ -23,9 +23,9 @@ export class Modules {
   parent: number;
   @Column({ nullable: true })
   codename: string;
-  @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   created_at: Date;
-  @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   update_at: Date;
   @Column({ nullable: true })
   created_by: string; 

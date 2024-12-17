@@ -41,15 +41,14 @@ export class AuthService {
   }
 
   public async register(registrationData: RegisterDto) {
-    const hashedPassword = await bcrypt.hash(registrationData.password, 10);
     try {
+      const hashedPassword = await bcrypt.hash(registrationData.password, 10);
       const createdUser = await this.usersService.create({
         ...registrationData,
         password: hashedPassword,
         roles_id: [],
         companies_id: []
       });
-      createdUser.password = undefined;
       return createdUser;
     } catch (error) {
       return error;

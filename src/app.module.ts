@@ -17,7 +17,7 @@ import { AuthModule } from './presentations/auth/auth/auth.module';
       load: [configurationEnv]
     }),
     TypeOrmModule.forRoot({
-      type: "mysql",
+      type: "postgres",
       host: process.env.HOST_BD,
       port: parseInt(process.env.PORT_BD),
       username: process.env.USERNAME_BD,
